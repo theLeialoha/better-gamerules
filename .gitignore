@@ -4,9 +4,6 @@ run/
 !run/README.md
 !run/server.properties
 
-libs/
-!libs/README.md
-
 # COPIED FROM https://ucsb-cs48.github.io/javatopics/gitignore_maven/
 
 # Emacs/vim

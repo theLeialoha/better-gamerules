@@ -1,4 +1,4 @@
 { 
-    "runtime.javaJBR": "/Library/Java/JavaVirtualMachines/jbr_jcef-17.0.11-osx-x64-b1207.24/Contents/Home",
-    "runtime.serverJar": "paper-1.20.1-196.jar"
+    "runtime.javaJBR": "/Library/Java/JavaVirtualMachines/jbr_jcef-21.0.8-osx-x64-b1097.42/Contents/Home",
+    "runtime.serverJar": "paper-1.21.8-60.jar"
 }

@@ -5,18 +5,28 @@
     <modelVersion>4.0.0</modelVersion>
 
     <name>Example Mod</name>
-    <groupId>com.example.exampleplugin</groupId>
-    <artifactId>example-plugin</artifactId>
-    <version>1.0.0</version>
-    <description>An example plugin</description>
-    <packaging>jar</packaging>
+
+    <groupId>dev.leialoha.plugins</groupId>
+    <artifactId>better-gamerules-parent</artifactId>
+    <version>1.0.0-NOPUBLISH</version>
+    <packaging>pom</packaging>
 
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
-        <project.pluginName>example-plugin</project.pluginName>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+        <api.version>1.0.0</api.version>
+
+        <plugin.pluginName>better-gamerules</plugin.pluginName>
+        <plugin.artifactId>better-gamerules</plugin.artifactId>
+        <plugin.version>1.0.0</plugin.version>
     </properties>
+
+    <modules>
+        <module>api</module>
+        <module>plugin</module>
+    </modules>
 
     <repositories>
         <repository>
@@ -26,71 +36,99 @@
     </repositories>
 
     <dependencies>
-        <dependency>
-            <groupId>io.netty</groupId>
-            <artifactId>netty-all</artifactId>
-            <version>4.1.68.Final</version>
-        </dependency>
-        <dependency>
-            <groupId>io.papermc.paper</groupId>
-            <artifactId>paper-api</artifactId>
-            <version>1.20.1-R0.1-SNAPSHOT</version>
-            <scope>provided</scope>
-        </dependency>
-
-        <!-- Look at libs/README.md -->
-        <!-- <dependency>
-            <groupId>org.bukkit</groupId>
-            <artifactId>craftbukkit</artifactId>
-            <version>1.20.1-R0.1-SNAPSHOT</version>
-            <systemPath>${basedir}/libs/craftbukkit-1.20.1-R0.1-SNAPSHOT.jar</systemPath>
-            <scope>system</scope>
-        </dependency> -->
+        <!-- No dependency on main -->
+        <!-- Add external deps if needed -->
     </dependencies>
 
     <build>
-        <resources>
-            <resource>
-                <filtering>true</filtering>
-                <directory>src/main/resources</directory>
-            </resource>
-        </resources>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-jar-plugin</artifactId>
-                <version>3.1.0</version>
+                <artifactId>maven-deploy-plugin</artifactId>
+                <version>3.1.1</version>
                 <configuration>
-                    <archive>
-                        <manifest>
-                            <addClasspath>true</addClasspath>
-                            <mainClass>com.example.exampleplugin.Executable</mainClass>
-                        </manifest>
-                    </archive>
+                    <skip>true</skip>
                 </configuration>
             </plugin>
-            <plugin>
-                <artifactId>maven-resources-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>copy-jar-after-package</id>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>copy-resources</goal>
-                        </goals>
-                        <configuration>
-                            <outputDirectory>${basedir}/run/plugins</outputDirectory>
-                            <resources>
-                                <resource>
-                                    <directory>${basedir}/target</directory>
-                                    <include>${artifactId}.jar</include>
-                                </resource>
-                            </resources>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
         </plugins>
-        <finalName>${project.artifactId}</finalName>
     </build>
+
+    <profiles>
+        <profile>
+            <id>run-if-file-exists</id>
+            <activation>
+                <file>
+                    <exists>${basedir}/plugin/src/main/</exists>
+                </file>
+            </activation>
+            <dependencies>
+                <!-- Look at libs/README.md -->
+                <dependency>
+                    <groupId>org.bukkit</groupId>
+                    <artifactId>craftbukkit</artifactId>
+                    <version>1.21.8-R0.1-SNAPSHOT</version>
+                    <scope>system</scope>
+                    <systemPath>${basedir}/libs/craftbukkit-1.21.8-R0.1-SNAPSHOT.jar</systemPath>
+                </dependency>
+            </dependencies>
+            <build>
+                <plugins>
+                    <!-- Let's remove the old run/plugins/plugin.jar -->
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-clean-plugin</artifactId>
+                        <version>3.5.0</version>
+                        <configuration>
+                            <filesets>
+                                <fileset>
+                                    <directory>${basedir}/run/plugins</directory>
+                                    <includes>
+                                        <include>${plugin.artifactId}-*.jar</include>
+                                    </includes>
+                                </fileset>
+                            </filesets>
+                        </configuration>
+                    </plugin>
+
+                    <!-- Build the jar -->
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-jar-plugin</artifactId>
+                        <version>3.3.0</version>
+                        <configuration>
+                            <archive>
+                                <manifest>
+                                    <addClasspath>true</addClasspath>
+                                    <mainClass>dev.leialoha.lobbies.Executable</mainClass>
+                                </manifest>
+                            </archive>
+                        </configuration>
+                    </plugin>
+
+                    <!-- Let's copy it for run/plugins/plugin.jar -->
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-antrun-plugin</artifactId>
+                        <version>3.1.0</version>
+                        <executions>
+                            <execution>
+                                <id>copy-jar-after-package</id>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>run</goal>
+                                </goals>
+                                <configuration>
+                                    <target>
+                                        <copy todir="${basedir}/run/plugins" flatten="true">
+                                            <fileset dir="${project.build.directory}" includes="*.jar"/>
+                                        </copy>
+                                    </target>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 </project>

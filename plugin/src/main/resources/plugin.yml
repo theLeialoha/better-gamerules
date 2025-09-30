@@ -1,10 +1,10 @@
-name: ${project.pluginName}
-version: ${project.version}
+name: ${plugin.pluginName}
+version: ${plugin.version}
 description: ${project.description}
 author: Leialoha
 website: https://leialoha.dev
 
-main: com.example.exampleplugin.ExamplePlugin
+main: dev.leialoha.bettergamerules.BetterGamerulesPlugin
 prefix: ${project.name}
 api-version: '1.20'
 load: STARTUP

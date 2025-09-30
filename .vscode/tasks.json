@@ -2,31 +2,51 @@
     "version": "2.0.0",
     "tasks": [
         {
-            "dependsOn": [ "Build plugin" ],
             "type": "shell",
             "label": "Start server",
-            "options": {
-                "cwd": "${workspaceFolder}/run"
-            },
-            "command": "${config:runtime.javaJBR}${/}bin${/}java",
+            "command": "${config:runtime.javaJBR}/bin/java",
             "args": [
                 "-XX:+AllowEnhancedClassRedefinition",
                 "-XX:HotswapAgent=core",
                 "-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=8080",
                 "-jar", "${config:runtime.serverJar}", "nogui"
             ],
-            "problemMatcher": []
+            "options": { "cwd": "${workspaceFolder}/run" },
+            "dependsOn": "Copy plugin JARs",
+            "problemMatcher": [],
+            "windows": {
+                "command": "${config:runtime.javaJBR}\\bin\\java.exe",
+                "args": [
+                    "-XX:+AllowEnhancedClassRedefinition",
+                    "-XX:HotswapAgent=core",
+                    "-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=8080",
+                    "-jar", "${config:runtime.serverJar}", "nogui"
+                ],
+                "options": { "cwd": "${workspaceFolder}\\run" }
+            }
         },
         {
             "hide": true,
             "type": "shell",
             "label": "Build plugin",
-            "options": {
-                "cwd": "${workspaceFolder}"
-            },
             "command": "mvn",
             "args": [ "clean", "package" ],
+            "options": { "cwd": "${workspaceFolder}" },
             "problemMatcher": []
         },
+        {
+            "hide": true,
+            "type": "shell",
+            "label": "Copy plugin JARs",
+            "command": "cp",
+            "args": ["plugin/target/*.jar", "run/plugins/"],
+            "options": { "cwd": "${workspaceFolder}" },
+            "problemMatcher": [],
+            "dependsOn": "Build plugin",
+            "windows": {
+                "command": "cmd",
+                "args": ["/c", "copy plugin\\target\\*.jar run\\plugins\\"]
+             },
+        }
     ]
 }

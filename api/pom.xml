@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>dev.leialoha.plugins</groupId>
+        <artifactId>better-gamerules-parent</artifactId>
+        <version>1.0.0-NOPUBLISH</version>
+        <relativePath>../pom.xml</relativePath>
+    </parent>
+
+    <name>Better Gamerules - API</name>
+    <description>Defines the API interfaces used by the main module</description>
+
+    <groupId>dev.leialoha.plugins</groupId>
+    <artifactId>better-gamerules-api</artifactId>
+    <version>${api.version}</version>
+    <packaging>jar</packaging>
+
+    <dependencies>
+        <!-- No dependency on api -->
+        <!-- Add external deps if needed -->
+    </dependencies>
+
+</project>
