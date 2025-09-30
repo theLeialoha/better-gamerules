@@ -1,4 +1,4 @@
-package dev.leialoha.bettergamerules.configs.generic;
+package dev.leialoha.bettergamerules.utilities;
 
 import java.util.function.BiConsumer;
 

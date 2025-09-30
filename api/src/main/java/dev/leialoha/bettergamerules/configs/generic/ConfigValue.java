@@ -1,5 +1,7 @@
 package dev.leialoha.bettergamerules.configs.generic;
 
+import dev.leialoha.bettergamerules.utilities.ObservableField;
+
 public class ConfigValue<T> extends ObservableField<T> {
 
     private final T defaultValue;

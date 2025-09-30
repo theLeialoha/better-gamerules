@@ -34,6 +34,7 @@ import org.bukkit.util.Vector;
 import dev.leialoha.bettergamerules.BetterGamerulesPlugin;
 import dev.leialoha.bettergamerules.configs.annotations.ConfigEntry;
 import dev.leialoha.bettergamerules.configs.annotations.EmptyEnum;
+import dev.leialoha.bettergamerules.utilities.Reflection;
 import dev.leialoha.bettergamerules.configs.GlobalPluginConfig;
 import dev.leialoha.bettergamerules.configs.annotations.Config;
 import dev.leialoha.bettergamerules.configs.annotations.ConfigAnnotation;
@@ -469,7 +470,7 @@ public abstract class ConfigBase {
 
     public File getConfigFile() throws IllegalClassFormatException {
         Config configPathAnnotation = Reflection.getAnnotation(this, Config.class);
-        String configFileName = configPathAnnotation.path();
+        String configFileName = configPathAnnotation.name();
         return getPluginConfigFile(configFileName);
     }
 

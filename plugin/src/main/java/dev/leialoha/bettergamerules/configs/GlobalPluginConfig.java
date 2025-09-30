@@ -7,7 +7,7 @@ import dev.leialoha.bettergamerules.configs.generic.ConfigValue;
 import dev.leialoha.bettergamerules.configs.annotations.Config;
 
 @Config(
-    path = "../global-config.yml",
+    name = "../global-config",
     version = 1,
     header = {
         "This is the global configuration file for BetterGameRules."

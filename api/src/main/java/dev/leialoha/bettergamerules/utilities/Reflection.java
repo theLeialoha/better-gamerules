@@ -1,4 +1,4 @@
-package dev.leialoha.bettergamerules.configs.generic;
+package dev.leialoha.bettergamerules.utilities;
 
 import java.lang.annotation.Annotation;
 import java.lang.instrument.IllegalClassFormatException;
@@ -8,12 +8,19 @@ import java.lang.reflect.Modifier;
 
 public class Reflection {
 
-    public static void validateType(Class<?> clazz, Class<?> parent) throws IllegalArgumentException {
-        if (clazz == null) throw new IllegalArgumentException("Class is null");
+    public static void validateType(Object object, Class<?> parent) {
+        if (object == null) throw new IllegalArgumentException("Object is null");
         if (parent == null) throw new IllegalArgumentException("Parent class is null");
 
-        if (!parent.isAssignableFrom(clazz))
-            throw new IllegalArgumentException(clazz.getName() + " is not of type " + parent.getName());
+        if (object instanceof Class<?> clazz)
+            if (!parent.isAssignableFrom(clazz))
+                throw new IllegalArgumentException(clazz.getName() + " is not of type " + parent.getName());
+        else if (object instanceof Field field) 
+            if (!parent.isAssignableFrom(field.getType()))
+                throw new IllegalArgumentException(field.getType().getName() + " is not of type " + parent.getName());
+        else
+            if (!parent.isAssignableFrom(object.getClass()))
+                throw new IllegalArgumentException(object.getClass().getName() + " is not of type " + parent.getName());
     }
 
     public static <T> T getType(Object object, Class<T> parent) throws IllegalArgumentException {
@@ -99,6 +106,10 @@ public class Reflection {
     @SuppressWarnings("deprecation")
     public static void makeAccessible(Field field) {
         if (!field.isAccessible()) field.setAccessible(true);
+    }
+
+    public static void throwException(Throwable throwable) {
+        throw new RuntimeException(throwable);
     }
 
 }

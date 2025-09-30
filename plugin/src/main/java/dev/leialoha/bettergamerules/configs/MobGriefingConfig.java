@@ -14,7 +14,7 @@ import dev.leialoha.bettergamerules.configs.annotations.Config;
 import dev.leialoha.bettergamerules.configs.annotations.ConfigAnnotation;
 
 @Config(
-    path = "mobGriefing.yml",
+    name = "mobGriefing",
     version = 1,
     header = {
         "Configuration for mob griefing changes",
