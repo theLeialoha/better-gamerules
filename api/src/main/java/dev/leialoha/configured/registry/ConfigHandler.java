@@ -7,10 +7,10 @@ import java.util.HashMap;
 import java.util.regex.Pattern;
 import java.util.stream.Stream;
 
+import dev.leialoha.configured.core.BaseConfig;
 import dev.leialoha.configured.annotations.Config;
 import dev.leialoha.configured.annotations.ConfigAnnotation;
 import dev.leialoha.configured.annotations.ConfigEntry;
-import dev.leialoha.configured.core.ConfigBase2;
 import dev.leialoha.configured.exceptions.InvalidConfigNameException;
 import dev.leialoha.configured.exceptions.MissingAnnotationException;
 import dev.leialoha.configured.utilities.Reflection;
@@ -18,11 +18,11 @@ import dev.leialoha.configured.values.ConfigValue;
 
 class ConfigHandler {
 
-    private static final HashMap<ConfigBase2, Config> CONFIG_ANNOTATIONS = new HashMap<>();
+    private static final HashMap<BaseConfig, Config> CONFIG_ANNOTATIONS = new HashMap<>();
 
     private static final Pattern CONFIG_NAME_VALIDATION = Pattern.compile("^(?:[\\w]+(?!\\/$)\\/?)+$", Pattern.CASE_INSENSITIVE);
 
-    public static Config getConfigAnnotation(ConfigBase2 config) {
+    public static Config getConfigAnnotation(BaseConfig config) {
         Config configAnnotation = Reflection.getAnnotation(config, Config.class);
         if (configAnnotation == null)
             throw new MissingAnnotationException(config.getClass(), Config.class);
@@ -31,7 +31,7 @@ class ConfigHandler {
         return configAnnotation;
     }
 
-    public static File getConfigFile(ConfigBase2 config) {
+    public static File getConfigFile(BaseConfig config) {
         ConfigIdentifier identifier = ConfigRegistry.getConfigIdentifier(config);
         if (identifier == null) return null;
         return identifier.getConfigFile();
@@ -52,7 +52,7 @@ class ConfigHandler {
             && Reflection.hasAnnotation(field, ConfigEntry.class);
     }
 
-    protected static Field[] getConfigFields(ConfigBase2 config) {
+    protected static Field[] getConfigFields(BaseConfig config) {
         Field[] fields = config.getClass().getDeclaredFields();
 
         return Stream.of(fields)
@@ -68,7 +68,7 @@ class ConfigHandler {
         return field.getAnnotationsByType(ConfigAnnotation.class);
     }
 
-    protected static ConfigAnnotation[] getConfigExtras(ConfigBase2 config) {
+    protected static ConfigAnnotation[] getConfigExtras(BaseConfig config) {
         Field[] fields = config.getClass().getDeclaredFields();
 
         return Stream.of(fields)

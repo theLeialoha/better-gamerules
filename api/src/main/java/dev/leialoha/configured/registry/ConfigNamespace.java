@@ -5,12 +5,23 @@ import java.io.File;
 import dev.leialoha.configured.core.BaseConfig;
 import dev.leialoha.configured.exceptions.DuplicateConfigException;
 
-public final class NamespaceView {
+public final class ConfigNamespace {
+
+    //TODO: protected String name;
+    //TODO: protected List<BaseConfig> configs;
     
     private final String namespace;
     private final File parentFolder;
 
-    protected NamespaceView(String namespace) {
+    // TODO: void registerConfig(BaseConfig config)
+    //   - Adds config to this namespace
+    //   - Calls registry.add(config) to track globally
+
+    // TODO: BaseConfig getConfig(String key)
+    //   - Retrieves from local list
+    // TODO: List<BaseConfig> getAllConfigs()
+
+    protected ConfigNamespace(String namespace) {
         this.namespace = namespace;
         File folder = ConfigRegistry.getFolder();
         this.parentFolder = new File(folder, namespace);

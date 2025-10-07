@@ -4,7 +4,7 @@ import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
-import dev.leialoha.configured.core.ConfigBase2;
+import dev.leialoha.configured.core.BaseConfig;
 import dev.leialoha.configured.exceptions.DuplicateNamespaceException;
 
 public final class ConfigRegistry {
@@ -20,7 +20,7 @@ public final class ConfigRegistry {
         return namespaces.computeIfAbsent(namespace, NamespaceView::new);
     }
 
-    protected static ConfigIdentifier getConfigIdentifier(ConfigBase2 config) {
+    protected static ConfigIdentifier getConfigIdentifier(BaseConfig config) {
         return registry.entrySet().stream()
             .filter(entry -> entry.getValue().config.equals(config))
             .map(entry -> entry.getKey())

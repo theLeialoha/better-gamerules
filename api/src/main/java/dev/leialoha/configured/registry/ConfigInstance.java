@@ -3,11 +3,11 @@ package dev.leialoha.configured.registry;
 import java.io.File;
 import java.lang.reflect.Field;
 
-import dev.leialoha.configured.core.ConfigBase2;
+import dev.leialoha.configured.core.BaseConfig;
 import dev.leialoha.configured.annotations.Config;
 import dev.leialoha.configured.annotations.ConfigAnnotation;
 
-class ConfigInstance<T extends ConfigBase2> {
+class ConfigInstance<T extends BaseConfig> {
 
     final T config;
     final File file;

@@ -1,14 +1,14 @@
 package dev.leialoha.configured.exceptions;
 
-import dev.leialoha.configured.core.ConfigBase2;
+import dev.leialoha.configured.core.BaseConfig;
 
 public class MissingConfigException extends RuntimeException {
 
-    public MissingConfigException(ConfigBase2 config) {
+    public MissingConfigException(BaseConfig config) {
         this(config.getClass());
     }
 
-    public MissingConfigException(Class<? extends ConfigBase2> config) {
+    public MissingConfigException(Class<? extends BaseConfig> config) {
         super(config.getName() + " hasn't been initalized yet.");
     }
 
