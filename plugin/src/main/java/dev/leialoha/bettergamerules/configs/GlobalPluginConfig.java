@@ -1,10 +1,9 @@
 package dev.leialoha.bettergamerules.configs;
 
-import dev.leialoha.bettergamerules.configs.annotations.ConfigEntry;
 import dev.leialoha.bettergamerules.configs.generic.ConfigBase;
-import dev.leialoha.bettergamerules.configs.generic.ConfigValue;
-
-import dev.leialoha.bettergamerules.configs.annotations.Config;
+import dev.leialoha.configured.annotations.Config;
+import dev.leialoha.configured.annotations.ConfigEntry;
+import dev.leialoha.configured.values.ConfigValue;
 
 @Config(
     name = "../global-config",

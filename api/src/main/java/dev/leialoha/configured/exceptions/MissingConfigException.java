@@ -1,6 +1,6 @@
-package dev.leialoha.bettergamerules.configs.exceptions;
+package dev.leialoha.configured.exceptions;
 
-import dev.leialoha.bettergamerules.configs.ConfigBase2;
+import dev.leialoha.configured.core.ConfigBase2;
 
 public class MissingConfigException extends RuntimeException {
 

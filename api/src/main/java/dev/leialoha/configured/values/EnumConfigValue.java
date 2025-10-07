@@ -1,4 +1,4 @@
-package dev.leialoha.bettergamerules.configs.generic;
+package dev.leialoha.configured.values;
 
 public class EnumConfigValue<T extends Enum<T>> extends ConfigValue<String> {
 

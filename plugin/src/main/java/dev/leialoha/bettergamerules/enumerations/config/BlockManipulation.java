@@ -1,6 +1,6 @@
 package dev.leialoha.bettergamerules.enumerations.config;
 
-import dev.leialoha.bettergamerules.configs.annotations.ConfigAnnotation;
+import dev.leialoha.configured.annotations.ConfigAnnotation;
 
 public enum BlockManipulation {
 

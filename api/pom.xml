@@ -20,8 +20,11 @@
     <packaging>jar</packaging>
 
     <dependencies>
-        <!-- No dependency on api -->
-        <!-- Add external deps if needed -->
+        <dependency>
+            <groupId>com.amihaiemil.web</groupId>
+            <artifactId>eo-yaml</artifactId>
+            <version>8.0.6</version>
+        </dependency>
     </dependencies>
 
 </project>

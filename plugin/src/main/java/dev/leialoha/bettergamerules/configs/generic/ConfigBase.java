@@ -32,12 +32,14 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.util.Vector;
 
 import dev.leialoha.bettergamerules.BetterGamerulesPlugin;
-import dev.leialoha.bettergamerules.configs.annotations.ConfigEntry;
-import dev.leialoha.bettergamerules.configs.annotations.EmptyEnum;
-import dev.leialoha.bettergamerules.utilities.Reflection;
 import dev.leialoha.bettergamerules.configs.GlobalPluginConfig;
-import dev.leialoha.bettergamerules.configs.annotations.Config;
-import dev.leialoha.bettergamerules.configs.annotations.ConfigAnnotation;
+import dev.leialoha.configured.annotations.Config;
+import dev.leialoha.configured.annotations.ConfigAnnotation;
+import dev.leialoha.configured.annotations.ConfigEntry;
+import dev.leialoha.configured.values.ConfigValue;
+import dev.leialoha.configured.values.EmptyEnum;
+import dev.leialoha.configured.values.EnumConfigValue;
+import dev.leialoha.configured.utilities.Reflection;
 
 public abstract class ConfigBase {
 
@@ -62,8 +64,8 @@ public abstract class ConfigBase {
     }
 
     public void loadConfig() throws IllegalClassFormatException {
-        Reflection.validateAnnotation(this, Config.class);
         Config configAnnotation = Reflection.getAnnotation(this, Config.class);
+        if (configAnnotation == null) throw new IllegalClassFormatException(this.getClass().getSimpleName() + " is missing " + Config.class + " @interface annotation");
 
         File configFile = getConfigFile();
 
@@ -144,6 +146,12 @@ public abstract class ConfigBase {
 
                 ConfigEntry configEntryAnnotation = Reflection.getAnnotation(field, ConfigEntry.class);
 
+                if (configEntryAnnotation == null) {
+                    LOGGER.warning("Couldn't process " + field.getName() + " in " + clazz.getName() + ", skipping...");
+                    LOGGER.warning(field.getName() + " is missing " + ConfigEntry.class + " @interface annotation");
+                    continue;
+                }
+
                 String configKey = configEntryAnnotation.key();
 
                 // Let's not throw an exception if the key doesn't exist, just skip it
@@ -154,7 +162,7 @@ public abstract class ConfigBase {
                 }
 
                 loadConfigEntry(configKey, field);
-            } catch (IllegalArgumentException | IllegalClassFormatException e) {
+            } catch (IllegalArgumentException e) {
                 LOGGER.warning("Couldn't process " + field.getName() + " in " + clazz.getName() + ", skipping...");
                 if (GLOBAL_CONFIG.ShowStackTraces.get()) e.printStackTrace();
             }
@@ -304,13 +312,13 @@ public abstract class ConfigBase {
         HashMap<String, ConfigurationSection> subConfigurations = new HashMap<>();
 
         Class<? extends ConfigBase> clazz = this.getClass();
-        Config configAnnotation;
+        Config configAnnotation = Reflection.getAnnotation(clazz, Config.class);
 
-        try {
-            configAnnotation = Reflection.getAnnotation(clazz, Config.class);
-        } catch (IllegalClassFormatException e) {
+        if (configAnnotation == null) {
             LOGGER.warning("Invalid config class " + clazz.getName() + ", aborting...");
-            if (GLOBAL_CONFIG.ShowStackTraces.get()) e.printStackTrace();
+            if (GLOBAL_CONFIG.ShowStackTraces.get()) 
+                // Leave my hacky ingenious alone
+                (new IllegalClassFormatException()).printStackTrace();
             return;
         }
 
@@ -377,6 +385,12 @@ public abstract class ConfigBase {
                         Field enumField = Reflection.getFieldByName(enumConstant, enumConstant.name());
                         ConfigAnnotation enumAnnotation = Reflection.getAnnotation(enumField, ConfigAnnotation.class);
 
+                        if (configAnnotation == null) {
+                            LOGGER.warning("Couldn't process " + enumName + " in " + enumType);
+                            LOGGER.warning(enumConstant.name() + " is missing " + ConfigAnnotation.class + " @interface annotation");
+                            continue;
+                        }
+
                         String[] enumComments = enumAnnotation.comments();
                         String namePadding = " ".repeat(nameSize - enumName.length());
                         String defaultPadding = " ".repeat(nameSize + 2);
@@ -386,7 +400,7 @@ public abstract class ConfigBase {
                             else comments.add(defaultPadding + enumComments[i]);
                         }
 
-                    } catch (IllegalArgumentException | IllegalClassFormatException e) {
+                    } catch (IllegalArgumentException e) {
                         LOGGER.warning("Couldn't process " + enumName + " in " + enumType);
                         if (GLOBAL_CONFIG.ShowStackTraces.get()) e.printStackTrace();
                     }

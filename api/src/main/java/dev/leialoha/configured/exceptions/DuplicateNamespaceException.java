@@ -1,4 +1,4 @@
-package dev.leialoha.bettergamerules.configs.exceptions;
+package dev.leialoha.configured.exceptions;
 
 public class DuplicateNamespaceException extends RuntimeException {
     

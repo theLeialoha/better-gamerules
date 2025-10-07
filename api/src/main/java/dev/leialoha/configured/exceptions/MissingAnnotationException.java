@@ -1,4 +1,4 @@
-package dev.leialoha.bettergamerules.configs.exceptions;
+package dev.leialoha.configured.exceptions;
 
 import java.lang.annotation.Annotation;
 

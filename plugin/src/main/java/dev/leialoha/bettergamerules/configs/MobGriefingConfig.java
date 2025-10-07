@@ -1,17 +1,16 @@
 package dev.leialoha.bettergamerules.configs;
 
-import dev.leialoha.bettergamerules.configs.annotations.ConfigEntry;
-import dev.leialoha.bettergamerules.configs.generic.EnumConfigValue;
 import dev.leialoha.bettergamerules.configs.generic.ConfigBase;
-import dev.leialoha.bettergamerules.configs.generic.ConfigValue;
 import dev.leialoha.bettergamerules.enumerations.config.BlockManipulation;
 import dev.leialoha.bettergamerules.enumerations.config.Explosions;
 import dev.leialoha.bettergamerules.enumerations.config.ItemPickup;
+import dev.leialoha.configured.annotations.Config;
+import dev.leialoha.configured.annotations.ConfigAnnotation;
+import dev.leialoha.configured.annotations.ConfigEntry;
+import dev.leialoha.configured.values.ConfigValue;
+import dev.leialoha.configured.values.EnumConfigValue;
 
 import java.util.List;
-
-import dev.leialoha.bettergamerules.configs.annotations.Config;
-import dev.leialoha.bettergamerules.configs.annotations.ConfigAnnotation;
 
 @Config(
     name = "mobGriefing",

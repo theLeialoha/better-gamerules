@@ -1,4 +1,4 @@
-package dev.leialoha.bettergamerules.configs.annotations;
+package dev.leialoha.configured.annotations;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
